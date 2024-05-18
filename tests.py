@@ -61,7 +61,7 @@ class TestBooksCollector:
         collector.books_genre = {'Оно'}
         assert collector.get_books_genre() == dictionare
 
-    # тест 6 - проверить, что выводятся только детские жанры
+    # тест 6 - проверить, что выводятся только детские книги
     book = ['Три медведя']
 
     @pytest.mark.parametrize('children_book', [book])
