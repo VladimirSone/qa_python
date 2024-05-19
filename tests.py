@@ -26,20 +26,21 @@ class TestBooksCollector:
 
     # тест 1 - проверяю добавление книги
     # строка 29 ошибка выводится
-    @pytest.mark.parametrize('name', [['Оно', 'Война и мир']])
+    @pytest.mark.parametrize('name', ['Оно', 'Война и мир'])
     def test_add_new_book_added_book(self, name):
         collector = BooksCollector()
         collector.add_new_book('Оно', 'Война и мир')
         assert name in collector.book_genre
 
     # тест 2 - проверяю присвоение книге жанра
-    def test_set_book_genre_not_book_genre(self, name):
-        # создаем экземпляр (объект) класса BooksCollector
+    def test_set_book_genre_not_book_genre(self):
         collector = BooksCollector()
-        # создаём книгу и жанр
-        collector.add_new_book('Оно')
-        collector.set_book_genre('Оно', 'Ужасы')
-        assert collector.book_genre[name] == 'Ужасы'
+        self.books_genre = {'Оно': 'Ужасы'}
+        self.genre = ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии']
+        name = 'Оно'
+        genre = 'Ужасы'
+        collector.set_book_genre(name, genre)
+        assert name in sels.books_genre.keys() and genre in self.genre
 
     # тест 3 - проверяю,что книга соответсвует жанру
     def test_get_book_genre_book_corresponds_genre(self):
@@ -50,43 +51,46 @@ class TestBooksCollector:
     # тест 4
     # проверить, что выводится список книг с определенным жанром
     def test_get_books_with_specific_genre_book_info(self):
-        collector = BooksCollector
+        result = ['Оно']
+        collector = BooksCollector()
         collector.book_genre = {'Оно': 'Ужасы'}
         assert collector.get_books_with_specific_genre('Ужасы') == result
 
     # тест 5 проверка, что можно получить данные по словарю
-    @pytest.mark.parametrize('dictionare', [{'Оно'}])
+    @pytest.mark.parametrize('dictionare', [{'Оно', 'Война и мир'}])
     def test_get_books_genre_conclusion(self, dictionare):
         collector = BooksCollector
-        collector.books_genre = {'Оно'}
+        collector.books_genre = {'Оно', 'Война и мир'}
         assert collector.get_books_genre() == dictionare
 
     # тест 6 - проверить, что выводятся только детские книги
-    book = ['Три медведя']
+    children_book = ['Три медведя', 'Красная шапочка']
 
-    @pytest.mark.parametrize('children_book', [book])
+    @pytest.mark.parametrize('children_book', children_book)
     def test_get_books_for_children_book(self, children_book):
         collector = BooksColector()
-        collector.books_genre = {'Три медведя': 'Мультфильм'}
+        collector.books_genre = {'Три медведя': 'Мультфильм', 'Красная шапочка': 'Мультфильм'}
         assert collector.get_books_for_children() == children_book
 
     # тест 7 -  позитивная проверка добавления книги в избранный список
     def test_add_book_in_favorites_final(self):
-        collector = BooksCollector
+        result = ['Оно']
+        collector = BooksCollector()
         collector.books_genre = {'Оно'}
         collector.add_book_in_favorites('Оно')
-        assert name in collector.favorites
+        assert collector.favorites('Оно') == result
 
     # тест 8 - проверяем удаление книги из избранного списка книг
-    def test_delete_book_from_favorites_exactly_deletes(self):
+    @pytest.mark.parametrize('name', ['Оно', 'Война и мир'])
+    def test_delete_book_from_favorites_exactly_deletes(self, name):
         collector = BooksCollector()
         collector.add_book_in_favorites = ['Оно']
         collector.delete_book_from_favorites('Оно')
         assert name not in collector.favorites
 
     # тест 9 проверить, что получаем список избранных книг
-    @pytest.mark.parametrize('dictionare', [['Оно']])
+    @pytest.mark.parametrize('dictionare', ['Оно', 'Война и мир'])
     def test_get_list_of_favorites_books_bring_out_list(self, dictionare):
         collector = BooksCollector
-        collector.favorites = ['Оно']
+        collector.favorites = ['Оно', 'Война и мир']
         assert collector.get_list_of_favorites_books() == dictionare
