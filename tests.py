@@ -33,14 +33,12 @@ class TestBooksCollector:
         assert name in collector.book_genre
 
     # тест 2 - проверяю присвоение книге жанра
-    def test_set_book_genre_not_book_genre(self):
+    @pytest.mark.parametrize('name', ['Оно'])
+    def test_set_book_genre_not_book_genre(self, name):
         collector = BooksCollector()
-        self.books_genre = {'Оно': 'Ужасы'}
-        self.genre = ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии']
-        name = 'Оно'
-        genre = 'Ужасы'
-        collector.set_book_genre(name, genre)
-        assert name in sels.books_genre.keys() and genre in self.genre
+        collector.add_new_book('Оно')
+        collector.set_book_genre('Оно', 'Ужасы')
+        assert collector.books_genre[name] == 'Ужасы'
 
     # тест 3 - проверяю,что книга соответсвует жанру
     def test_get_book_genre_book_corresponds_genre(self):
