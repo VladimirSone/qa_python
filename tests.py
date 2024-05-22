@@ -61,14 +61,14 @@ class TestBooksCollector:
         collector.books_genre = {'Оно', 'Война и мир'}
         assert collector.get_books_genre() == dictionare
 
-    # тест 6 - проверить, что выводятся только детские книги
-    children_book = ['Три медведя', 'Красная шапочка']
-
-    @pytest.mark.parametrize('children_book', children_book)
-    def test_get_books_for_children_book(self, children_book):
+    # Тест 6 - проверяю, что выводятся детские книги
+    def test_get_books_for_children_book(self):
         collector = BooksColector()
-        collector.books_genre = {'Три медведя': 'Мультфильм', 'Красная шапочка': 'Мультфильм'}
-        assert collector.get_books_for_children() == children_book
+        collector.add_new_book('Три медведя')
+        collector.add_new_book('Челюсти')
+        collector.set_book_genre('Три медведя', 'Мультфильм')
+        collector.set_book_genre('Челюсти', 'Ужасы')
+        assert collector.get_books_for_children() == ['Три медведя']
 
     # тест 7 -  позитивная проверка добавления книги в избранный список
     def test_add_book_in_favorites_final(self):
@@ -76,7 +76,7 @@ class TestBooksCollector:
         collector = BooksCollector()
         collector.books_genre = {'Оно'}
         collector.add_book_in_favorites('Оно')
-        assert collector.favorites('Оно') == result
+        assert collector.get_list_of_favorites_books('Оно') == result
 
     # тест 8 - проверяем удаление книги из избранного списка книг
     @pytest.mark.parametrize('name', ['Оно', 'Война и мир'])
