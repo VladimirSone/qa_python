@@ -82,7 +82,7 @@ class TestBooksCollector:
     @pytest.mark.parametrize('name', ['Оно', 'Война и мир'])
     def test_delete_book_from_favorites_exactly_deletes(self, name):
         collector = BooksCollector()
-        collector.add_book_in_favorites = ['Оно']
+        collector.favorites = ['Оно']
         collector.delete_book_from_favorites('Оно')
         assert name not in collector.favorites
 
